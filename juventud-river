@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#E30613" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Comisión de la Juventud - River Plate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; overflow-x: hidden; background: #F4F4F4; scroll-behavior: smooth; }
+    body { font-family: 'Roboto', sans-serif; -webkit-tap-highlight-color: transparent; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #eee; }
+    ::-webkit-scrollbar-thumb { background: #E30613; border-radius: 3px; }
+    input, textarea, select { font-size: 16px !important; }
+    button { -webkit-appearance: none; }
+
+    /* Top utility bar — estilo cariverplate */
+    .top-bar {
+      background: #1a1a1a;
+      padding: 0;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.5px;
+    }
+    .top-bar a { color: rgba(255,255,255,0.55); text-decoration: none; }
+    .top-bar a:hover { color: #fff; }
+
+    /* Main nav — blanco con tira roja */
+    .main-nav {
+      background: #fff;
+      border-bottom: 3px solid #E30613;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .main-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 64px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #E30613;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      color: #fff;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+    .nav-brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    .nav-brand-top {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: #888;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .nav-brand-main {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .nav-brand-main span { color: #E30613; }
+    .nav-links { display: flex; gap: 0; }
+    .nav-link-btn {
+      background: none;
+      border: none;
+      padding: 0 16px;
+      height: 64px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #333;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .nav-link-btn:hover { color: #E30613; }
+    .nav-link-btn.active { color: #E30613; border-bottom-color: #E30613; }
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #333; margin: 4px 0; }
+
+    /* Bottom mobile nav */
+    .bnav { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
+      background: #fff; border-top: 2px solid #E30613;
+      padding: 4px 0 env(safe-area-inset-bottom, 4px); box-shadow: 0 -2px 8px rgba(0,0,0,0.1); }
+    @media(max-width:700px) {
+      .bnav { display: flex; }
+      body { padding-bottom: 64px; }
+      .hero-compact { min-height: 46vh !important; padding-top: 24px !important; padding-bottom: 24px !important; }
+      .main-nav-inner { height: 56px; }
+      .nav-logo { width: 38px; height: 38px; font-size: 0.68rem; }
+      .top-bar { display: none; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+    }
+    @media(min-width:701px) {
+      .nav-mobile-menu { display: none !important; }
+    }
+
+    /* Sección hero */
+    .hero {
+      background: #1a1a1a;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: #E30613;
+    }
+
+    /* Secciones claras */
+    .section-light { background: #fff; }
+    .section-gray { background: #F4F4F4; }
+    .section-dark { background: #1a1a1a; }
+
+    /* Section label */
+    .section-label {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #E30613;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .section-title.light { color: #fff; }
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: #E30613;
+      border-radius: 2px;
+      margin: 10px auto 24px;
+    }
+    .section-divider.left { margin: 10px 0 24px; }
+
+    /* Cards River-style */
+    .river-card {
+      background: #fff;
+      border-radius: 4px;
+      border: 1px solid #e8e8e8;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .river-card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    .river-card-accent { border-top: 3px solid #E30613; }
+
+    /* Pill badge */
+    .badge {
+      display: inline-block;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    /* Botones estilo River */
+    .btn-river {
+      background: #E30613;
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.15s;
+    }
+    .btn-river:hover { background: #c0000f; }
+    .btn-river-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+      padding: 11px 26px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-river-outline:hover { border-color: #fff; color: #fff; }
+
+    /* Diagonal River stripes decorativas */
+    .river-stripes {
+      position: absolute;
+      opacity: 0.04;
+      background-image: repeating-linear-gradient(
+        -58deg,
+        #fff 0, #fff 1px,
+        transparent 1px, transparent 80px
+      );
+      inset: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+  var SUPABASE_URL = 'https://qdnjdddrcxvnhwplzukt.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkbmpkZGRyY3h2bmh3cGx6dWt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NTU3ODksImV4cCI6MjA5MDEzMTc4OX0.s-LJAxqiWdip2rVQKJVaocfL8wSgJD68WEpl-ujannc';
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ═══ COLORES (estilo cariverplate) ═══
+const C = {
+  red: '#E30613', redDark: '#C0000F', redLight: '#FF2030',
+  dark: '#1a1a1a', dark2: '#2a2a2a', dark3: '#111',
+  white: '#FFFFFF', offWhite: '#F8F8F8', gray: '#F4F4F4',
+  grayMid: '#BBBBBB', grayText: '#777', grayBorder: '#E0E0E0',
+};
+
+const MONTHS   = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAYS_S   = ['L','M','X','J','V','S','D'];
+const DAYS_F   = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const AREAS    = [
+  { id: 'formativa',     name: 'Formativa',    color: '#E30613', icon: '📚', desc: 'Capacitación y desarrollo de habilidades.' },
+  { id: 'sociocultural', name: 'Sociocultural', color: '#555',    icon: '🎭', desc: 'Actividades culturales y de integración.' },
+  { id: 'deportiva',     name: 'Deportiva',     color: '#1565C0', icon: '⚽', desc: 'Eventos deportivos y disciplinas del club.' },
+];
+const LEADERS  = [
+  { name: 'Jerónimo Orlando', role: 'Presidente' },
+  { name: 'Dante Di Carlo',   role: 'Vicepresidente I' },
+  { name: 'Eliseo Tapia',     role: 'Vicepresidente II' },
+];
+const DEFAULT_EVENTS = [
+  { id: 'ev1', title: 'Charla: Liderazgo Juvenil',   date: '2026-03-25', time: '18:00', area: 'formativa',     description: 'Orador invitado sobre liderazgo en organizaciones deportivas', location: null },
+  { id: 'ev2', title: 'Taller de Oratoria',           date: '2026-03-27', time: '19:00', area: 'formativa',     description: 'Taller práctico para mejorar habilidades de comunicación',     location: null },
+  { id: 'ev3', title: 'Cine debate: Hooligans',       date: '2026-03-28', time: '17:00', area: 'sociocultural', description: 'Proyección y debate sobre cultura en el fútbol',                location: null },
+  { id: 'ev4', title: 'Charla: Nutrición Deportiva',  date: '2026-04-02', time: '18:30', area: 'deportiva',     description: 'Nutricionista del club comparte claves de alimentación',       location: null },
+];
+
+const areaColor = (id) => AREAS.find(a => a.id === id)?.color ?? C.red;
+const areaName  = (id) => AREAS.find(a => a.id === id)?.name  ?? id;
+const initials  = (name) => {
+  const p = name.trim().split(/\s+/);
+  return p.length >= 2 ? (p[0][0] + p[p.length - 1][0]).toUpperCase() : name.slice(0, 2).toUpperCase();
+};
+
+const HAS_SB = Boolean(window.SUPABASE_URL && window.SUPABASE_KEY);
+const LS_KEY = 'cj_river_v2';
+const SB_API = window.SUPABASE_URL + '/rest/v1';
+const SB_HDR = {
+  'apikey': window.SUPABASE_KEY,
+  'Authorization': 'Bearer ' + window.SUPABASE_KEY,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation',
+};
+
+async function sbFetch(path, opts = {}) {
+  const res = await fetch(SB_API + path, { ...opts, headers: { ...SB_HDR, ...(opts.headers || {}) } });
+  if (!res.ok) { const txt = await res.text(); throw new Error(txt); }
+  const txt = await res.text();
+  return txt ? JSON.parse(txt) : null;
+}
+
+async function dbLoad() {
+  if (HAS_SB) {
+    const [evs, ns] = await Promise.all([
+      sbFetch('/events?select=*&order=date.asc,time.asc'),
+      sbFetch('/event_notes?select=*'),
+    ]);
+    const notes = {};
+    (ns || []).forEach(n => { notes[n.event_id] = { id: n.id, content: n.content }; });
+    return { events: evs || [], notes };
+  }
+  const saved = localStorage.getItem(LS_KEY);
+  return saved ? JSON.parse(saved) : { events: DEFAULT_EVENTS, notes: {} };
+}
+function lsSave(events, notes) { localStorage.setItem(LS_KEY, JSON.stringify({ events, notes })); }
+async function dbAddEvent(payload) {
+  if (HAS_SB) { const data = await sbFetch('/events', { method: 'POST', body: JSON.stringify(payload) }); return Array.isArray(data) ? data[0] : data; }
+  return { ...payload, id: `ev_${Date.now()}` };
+}
+async function dbRemoveEvent(id) { if (HAS_SB) await sbFetch(`/events?id=eq.${id}`, { method: 'DELETE' }); }
+async function dbSaveNote(eventId, content, existing) {
+  if (HAS_SB) {
+    if (existing?.id) await sbFetch(`/event_notes?id=eq.${existing.id}`, { method: 'PATCH', body: JSON.stringify({ content }) });
+    else await sbFetch('/event_notes', { method: 'POST', body: JSON.stringify({ event_id: eventId, content }) });
+  }
+}
+
+// ═══ BARRA SUPERIOR (top utility bar) ═══
+function TopBar({ synced }) {
+  return (
+    <div className="top-bar">
+      <div style={{ display: 'flex', gap: 16 }}>
+        <span>Club Atlético River Plate</span>
+        <span style={{ opacity: 0.3 }}>|</span>
+        <span>Comisión de la Juventud</span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {synced && (
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#4CAF50' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4CAF50', display: 'inline-block' }} />
+            En línea
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ═══ BOTTOM NAV (mobile) ═══
+function MobileNav({ active, onNav }) {
+  const items = [
+    { id: 'inicio',        icon: '⌂', l: 'Inicio'   },
+    { id: 'calendario',    icon: '◫', l: 'Eventos'  },
+    { id: 'areas',         icon: '◈', l: 'Áreas'    },
+    { id: 'institucional', icon: '⊕', l: 'Nosotros' },
+  ];
+  return (
+    <div className="bnav">
+      {items.map(it => (
+        <button key={it.id} onClick={() => onNav(it.id)}
+          style={{ flex: 1, background: 'none', border: 'none', color: active === it.id ? C.red : '#999',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: '4px 0',
+            cursor: 'pointer', fontFamily: "'Roboto', sans-serif", fontSize: '0.46rem', fontWeight: 700,
+            letterSpacing: 1, textTransform: 'uppercase', transition: 'color 0.15s' }}>
+          <span style={{ fontSize: '1.15rem', lineHeight: 1 }}>{it.icon}</span>
+          {it.l}
+          {active === it.id && <div style={{ width: 16, height: 2, background: C.red, borderRadius: 1, marginTop: 1 }} />}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ═══ NAV PRINCIPAL ═══
+function Nav({ active, onNav, synced }) {
+  const [open, setOpen] = useState(false);
+  const items = [
+    { id: 'inicio', l: 'Inicio' },
+    { id: 'calendario', l: 'Calendario' },
+    { id: 'areas', l: 'Áreas' },
+    { id: 'institucional', l: 'Institucional' },
+  ];
+  return (
+    <>
+      <TopBar synced={synced} />
+      <nav className="main-nav">
+        <div className="main-nav-inner">
+          <div className="nav-brand">
+            <div className="nav-logo">CJ</div>
+            <div className="nav-brand-text">
+              <span className="nav-brand-top">Club Atlético River Plate</span>
+              <span className="nav-brand-main">Comisión de la <span>Juventud</span></span>
+            </div>
+          </div>
+          <div className="nav-links">
+            {items.map(it => (
+              <button key={it.id} className={`nav-link-btn${active === it.id ? ' active' : ''}`} onClick={() => onNav(it.id)}>
+                {it.l}
+              </button>
+            ))}
+          </div>
+          <button className="nav-hamburger" onClick={() => setOpen(o => !o)}>
+            <span /><span /><span />
+          </button>
+        </div>
+        {open && (
+          <div className="nav-mobile-menu" style={{ background: '#fff', borderTop: '1px solid #eee', padding: '8px 0' }}>
+            {items.map(it => (
+              <button key={it.id} onClick={() => { onNav(it.id); setOpen(false); }}
+                style={{ display: 'block', width: '100%', padding: '13px 20px', background: active === it.id ? '#FFF0F0' : 'none',
+                  border: 'none', borderLeft: active === it.id ? `3px solid ${C.red}` : '3px solid transparent',
+                  textAlign: 'left', fontFamily: "'Roboto', sans-serif", fontSize: '0.75rem', fontWeight: 500,
+                  letterSpacing: 1, textTransform: 'uppercase', color: active === it.id ? C.red : '#333', cursor: 'pointer' }}>
+                {it.l}
+              </button>
+            ))}
+          </div>
+        )}
+      </nav>
+    </>
+  );
+}
+
+// ═══ HERO ═══
+function Hero({ onNav }) {
+  return (
+    <section className="hero hero-compact"
+      style={{ minHeight: '68vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 20px', position: 'relative', overflow: 'hidden' }}>
+      <div className="river-stripes" />
+      {/* Fondo gradiente sutil */}
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 50% at 50% 100%, rgba(227,6,19,0.18) 0%, transparent 70%)' }} />
+      {/* Franja roja vertical izq */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: 5, height: '100%', background: C.red }} />
+      {/* Franja roja vertical der */}
+      <div style={{ position: 'absolute', top: 0, right: 0, width: 5, height: '100%', background: C.red }} />
+
+      <div style={{ position: 'relative', textAlign: 'center', maxWidth: 640, width: '100%' }}>
+        {/* Escudo CJ */}
+        <div style={{ width: 72, height: 72, borderRadius: '50%', background: C.red, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', border: '3px solid rgba(255,255,255,0.15)' }}>
+          <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 800, fontSize: '1.3rem', color: '#fff', letterSpacing: 1 }}>CJ</span>
+        </div>
+
+        <div style={{ fontFamily: "'Roboto', sans-serif", fontSize: '0.55rem', fontWeight: 500, letterSpacing: 6, textTransform: 'uppercase', color: C.red, marginBottom: 14 }}>
+          Club Atlético River Plate
+        </div>
+
+        <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2rem,9vw,3.8rem)', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: 4, lineHeight: 1 }}>
+          Comisión de la
+        </h1>
+        <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(2.8rem,11vw,5rem)', fontWeight: 800, color: C.red, textTransform: 'uppercase', letterSpacing: 4, lineHeight: 1, margin: '4px 0 0' }}>
+          Juventud
+        </h1>
+
+        {/* Separador tipo River */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, margin: '22px auto' }}>
+          <div style={{ width: 60, height: 1, background: 'rgba(255,255,255,0.2)' }} />
+          <div style={{ width: 6, height: 6, background: C.red, transform: 'rotate(45deg)' }} />
+          <div style={{ width: 6, height: 6, background: '#fff', transform: 'rotate(45deg)' }} />
+          <div style={{ width: 6, height: 6, background: C.red, transform: 'rotate(45deg)' }} />
+          <div style={{ width: 60, height: 1, background: 'rgba(255,255,255,0.2)' }} />
+        </div>
+
+        <p style={{ fontSize: 'clamp(0.78rem,2.5vw,0.9rem)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, maxWidth: 460, margin: '0 auto 32px', fontWeight: 300 }}>
+          Formamos y activamos la próxima generación de socios influyentes del Club Atlético River Plate.
+        </p>
+
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button className="btn-river" onClick={() => onNav('calendario')}>Ver Calendario</button>
+          <button className="btn-river-outline" onClick={() => onNav('areas')}>Ver Áreas</button>
+        </div>
+      </div>
+
+      {/* Mini cards áreas */}
+      <div style={{ position: 'relative', marginTop: 48, display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+        {AREAS.map(a => (
+          <div key={a.id} style={{ textAlign: 'center', background: 'rgba(255,255,255,0.05)', borderRadius: 4, padding: '12px 20px', border: '1px solid rgba(255,255,255,0.1)', borderTop: `3px solid ${a.color}` }}>
+            <div style={{ fontSize: '1rem', marginBottom: 6 }}>{a.icon}</div>
+            <div style={{ fontFamily: "'Roboto', sans-serif", fontSize: '0.6rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: a.id === 'sociocultural' ? 'rgba(255,255,255,0.45)' : a.color }}>{a.name}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ═══ INSTITUCIONAL ═══
+const PILLARS = [
+  { t: 'Misión',  i: '🎯', txt: 'Representar y potenciar a la juventud socia del Club Atlético River Plate, generando espacios de participación, formación y encuentro que impulsen su desarrollo personal, su compromiso con el club y potenciar el futuro de la próxima generación de dirigentes de River.' },
+  { t: 'Visión',  i: '🔭', txt: 'Ser una comisión referente dentro del club, reconocida por su capacidad de formar, inspirar y conectar a las nuevas generaciones, creando experiencias, charlas y proyectos que fortalezcan el sentido de pertenencia y proyecten una juventud activa, comprometida y protagonista del futuro de River.' },
+  { t: 'Valores', i: '💪', txt: 'Nos guiamos por el compromiso, el trabajo en equipo y la vocación de servicio. Actuamos con responsabilidad, cercanía y transparencia, promoviendo una participación activa y genuina. Creemos en el poder de la juventud organizada para generar comunidad, construir vínculos sólidos y dejar una huella positiva dentro y fuera del club.' },
+];
+
+function Inst() {
+  const [sel, setSel] = useState(null);
+  return (
+    <section id="institucional" className="section-light" style={{ padding: '56px 20px 64px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div className="section-label">Quiénes Somos</div>
+          <h2 className="section-title">Institu<span style={{ color: C.red }}>cional</span></h2>
+          <div className="section-divider" />
+        </div>
+
+        {/* Pilares */}
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 44 }}>
+          {PILLARS.map((p, i) => (
+            <div key={i} className="river-card river-card-accent" style={{ flex: '1 1 280px', maxWidth: 340, padding: '24px 20px', textAlign: 'left' }}>
+              <div style={{ fontSize: '1.3rem', marginBottom: 10 }}>{p.i}</div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.9rem', fontWeight: 700, color: C.dark, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 10 }}>{p.t}</div>
+              <div style={{ fontSize: '0.73rem', color: '#555', lineHeight: 1.8 }}>{p.txt}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Autoridades */}
+        <div style={{ textAlign: 'center', marginBottom: 20 }}>
+          <div style={{ display: 'inline-block', background: C.red, color: '#fff', fontFamily: "'Roboto', sans-serif", fontSize: '0.55rem', fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', padding: '5px 16px', borderRadius: 2, marginBottom: 18 }}>Autoridades</div>
+        </div>
+        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 40 }}>
+          {LEADERS.map((l, i) => {
+            const on = sel === i;
+            return (
+              <div key={i} onClick={() => setSel(on ? null : i)} className="river-card"
+                style={{ background: on ? C.red : '#fff', color: on ? '#fff' : C.dark, borderRadius: 4, padding: '20px 28px', textAlign: 'center', minWidth: 160, cursor: 'pointer', transition: 'all 0.2s', border: on ? `1px solid ${C.red}` : '1px solid #e8e8e8' }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: on ? 'rgba(255,255,255,0.2)' : C.red, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', fontFamily: "'Oswald', sans-serif", fontSize: '0.78rem', fontWeight: 700, color: '#fff' }}>{initials(l.name)}</div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.85rem', fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase' }}>{l.name}</div>
+                <div style={{ fontSize: '0.6rem', fontWeight: 500, letterSpacing: 1.5, textTransform: 'uppercase', opacity: 0.6, marginTop: 4 }}>{l.role}</div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bloque descriptivo */}
+        <div style={{ background: C.dark, borderRadius: 4, padding: '28px 28px 28px 32px', color: '#fff', position: 'relative', overflow: 'hidden', maxWidth: 760, margin: '0 auto' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: C.red }} />
+          <div className="river-stripes" style={{ opacity: 0.03 }} />
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.92rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 14, position: 'relative' }}>
+            Sobre la <span style={{ color: C.red }}>Comisión</span>
+          </div>
+          <div style={{ fontSize: '0.78rem', lineHeight: 1.9, opacity: 0.72, position: 'relative' }}>
+            La Comisión de la Juventud de River Plate nace con el propósito de dar voz, espacio y protagonismo a los socios jóvenes del club.<br /><br />
+            Buscamos generar un punto de encuentro donde la formación, la participación y la comunidad se integren de manera natural, a través de charlas, experiencias y actividades que inspiren y conecten.<br /><br />
+            Trabajamos sobre tres ejes principales — <span style={{ color: C.red, fontWeight: 600 }}>formativo</span>, <span style={{ color: '#aaa', fontWeight: 600 }}>sociocultural</span> y <span style={{ color: '#4FC3F7', fontWeight: 600 }}>deportivo</span> — con el objetivo de acompañar el desarrollo integral de los jóvenes, fortaleciendo su vínculo con el club y entre ellos.<br /><br />
+            Creemos en una juventud activa, con iniciativa, que no solo participa, sino que también construye, propone y deja huella en la vida institucional de River.
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══ MODAL ═══
+function EventModal({ day, month, year, events, onClose, onAdd, onRemove }) {
+  const [showForm, setShowForm] = useState(false);
+  const [saving, setSaving]     = useState(false);
+  const [form, setForm]         = useState({ title: '', time: '18:00', area: 'formativa', location: '', desc: '' });
+  const dk  = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  const evs = events.filter(e => e.date === dk);
+  const iS  = { background: '#F4F4F4', border: '1px solid #ddd', borderRadius: 3, padding: '11px 13px', fontFamily: "'Roboto', sans-serif", fontSize: '16px', outline: 'none', width: '100%', color: C.dark };
+
+  const handleAdd = async () => {
+    if (!form.title.trim()) return;
+    setSaving(true);
+    try {
+      await onAdd({ date: dk, title: form.title.trim(), time: form.time, area: form.area, location: form.location.trim() || null, description: form.desc.trim() || null });
+      setForm({ title: '', time: '18:00', area: 'formativa', location: '', desc: '' });
+      setShowForm(false);
+    } finally { setSaving(false); }
+  };
+
+  return (
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 200, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '12px 12px 0 0', padding: '20px 18px 32px', width: '100%', maxWidth: 500, maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 -8px 40px rgba(0,0,0,0.2)' }}>
+        <div style={{ width: 36, height: 3, background: '#ddd', borderRadius: 2, margin: '0 auto 16px' }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, borderBottom: '1px solid #eee', paddingBottom: 14 }}>
+          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: C.dark, letterSpacing: 1 }}>{day} de {MONTHS[month]} <span style={{ color: C.red }}>{year}</span></div>
+          <button onClick={onClose} style={{ background: '#F4F4F4', border: 'none', width: 30, height: 30, borderRadius: '50%', fontSize: '0.9rem', cursor: 'pointer', color: '#888', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+        </div>
+
+        {evs.length === 0 && !showForm && <div style={{ color: '#888', fontSize: '0.82rem', textAlign: 'center', padding: '18px 0' }}>No hay eventos este día.</div>}
+        {evs.map(ev => (
+          <div key={ev.id} style={{ background: '#F9F9F9', borderRadius: 4, padding: '12px 14px', marginBottom: 8, borderLeft: `4px solid ${areaColor(ev.area)}`, position: 'relative', border: '1px solid #eee', borderLeftWidth: 4 }}>
+            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.9rem', fontWeight: 600, color: C.dark, paddingRight: 28 }}>{ev.title}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 4, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.68rem', color: '#888' }}>{ev.time} hs</span>
+              {ev.location && <span style={{ fontSize: '0.65rem', color: '#888' }}>📍 {ev.location}</span>}
+              <span style={{ fontSize: '0.56rem', fontWeight: 700, color: '#fff', background: areaColor(ev.area), padding: '2px 8px', borderRadius: 2, fontFamily: "'Roboto', sans-serif", letterSpacing: 1, textTransform: 'uppercase' }}>{areaName(ev.area)}</span>
+            </div>
+            {ev.description && <div style={{ fontSize: '0.72rem', color: C.dark, marginTop: 5, opacity: 0.55 }}>{ev.description}</div>}
+            <button onClick={() => onRemove(ev.id)} style={{ position: 'absolute', top: 8, right: 10, background: 'none', border: 'none', cursor: 'pointer', color: '#ccc', fontSize: 20, lineHeight: 1 }}>×</button>
+          </div>
+        ))}
+
+        {!showForm ? (
+          <button onClick={() => setShowForm(true)} className="btn-river" style={{ width: '100%', marginTop: 6, padding: '13px' }}>+ Agregar Evento</button>
+        ) : (
+          <div style={{ background: '#F9F9F9', borderRadius: 6, padding: 16, marginTop: 10, border: '1px solid #eee' }}>
+            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.7rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: C.dark, marginBottom: 12 }}>Nuevo Evento</div>
+            <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Nombre del evento *" style={iS} autoFocus />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
+              <div>
+                <div style={{ fontSize: '0.65rem', color: '#888', marginBottom: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Hora</div>
+                <input type="time" value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} style={iS} />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.65rem', color: '#888', marginBottom: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Lugar (opcional)</div>
+                <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} placeholder="Ej: Salón Principal" style={iS} />
+              </div>
+            </div>
+            <div style={{ marginTop: 10 }}>
+              <div style={{ fontSize: '0.65rem', color: '#888', marginBottom: 6, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Área</div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {AREAS.map(a => (
+                  <button key={a.id} onClick={() => setForm(f => ({ ...f, area: a.id }))}
+                    style={{ background: form.area === a.id ? a.color : 'transparent', color: form.area === a.id ? '#fff' : a.color, border: `1.5px solid ${a.color}`, padding: '5px 12px', borderRadius: 2, cursor: 'pointer', fontFamily: "'Roboto', sans-serif", fontSize: '0.64rem', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' }}>
+                    {a.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <textarea value={form.desc} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} placeholder="Descripción (opcional)" rows={2} style={{ ...iS, marginTop: 8, resize: 'vertical' }} />
+            <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+              <button onClick={handleAdd} disabled={saving || !form.title.trim()} className="btn-river" style={{ flex: 1, padding: '12px', opacity: saving || !form.title.trim() ? 0.5 : 1 }}>{saving ? 'Guardando...' : 'Guardar'}</button>
+              <button onClick={() => setShowForm(false)} style={{ flex: 1, background: '#fff', color: C.dark, border: '1px solid #ddd', borderRadius: 2, padding: '12px', cursor: 'pointer', fontFamily: "'Roboto', sans-serif", fontSize: '0.75rem', fontWeight: 600 }}>Cancelar</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ═══ CALENDARIO ═══
+function Cal({ events, addEvent, removeEvent }) {
+  const today = new Date();
+  const [vy, setVy]         = useState(today.getFullYear());
+  const [vm, setVm]         = useState(today.getMonth());
+  const [sel, setSel]       = useState(null);
+  const [filter, setFilter] = useState('todas');
+  const [mob, setMob]       = useState(window.innerWidth < 640);
+  useEffect(() => { const h = () => setMob(window.innerWidth < 640); window.addEventListener('resize', h); return () => window.removeEventListener('resize', h); }, []);
+
+  const pm = () => { if (vm === 0) { setVm(11); setVy(y => y - 1); } else setVm(m => m - 1); };
+  const nm = () => { if (vm === 11) { setVm(0); setVy(y => y + 1); } else setVm(m => m + 1); };
+  const isCurrentMonth = vy === today.getFullYear() && vm === today.getMonth();
+
+  const fd = new Date(vy, vm, 1);
+  let offset = fd.getDay() - 1; if (offset < 0) offset = 6;
+  const dim = new Date(vy, vm + 1, 0).getDate();
+  const cells = [];
+  for (let i = 0; i < offset; i++) cells.push(null);
+  for (let d = 1; d <= dim; d++) cells.push(d);
+
+  const dk = (d) => `${vy}-${String(vm + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  const fe = filter === 'todas' ? events : events.filter(e => e.area === filter);
+  const evOnDay = (d) => fe.filter(e => e.date === dk(d));
+  const isToday = (d) => d === today.getDate() && vm === today.getMonth() && vy === today.getFullYear();
+
+  return (
+    <section id="calendario" className="section-gray" style={{ padding: mob ? '20px 0 28px' : '48px 0 56px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ padding: '0 16px', width: '100%', maxWidth: 1200, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {!mob && (
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <div className="section-label">Charlas & Eventos</div>
+            <h2 className="section-title">Calen<span style={{ color: C.red }}>dario</span></h2>
+            <div className="section-divider" />
+          </div>
+        )}
+        {mob && <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: '1.25rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, color: C.dark, marginBottom: 10 }}>Calen<span style={{ color: C.red }}>dario</span></h2>}
+
+        {/* Filtros */}
+        <div style={{ display: 'flex', gap: 6, marginBottom: mob ? 10 : 16, flexWrap: mob ? 'nowrap' : 'wrap', justifyContent: mob ? 'flex-start' : 'center', overflowX: mob ? 'auto' : 'visible', width: '100%', WebkitOverflowScrolling: 'touch', paddingBottom: mob ? 2 : 0 }}>
+          <button onClick={() => setFilter('todas')}
+            style={{ background: filter === 'todas' ? C.dark : '#fff', color: filter === 'todas' ? '#fff' : '#555', border: `1px solid ${filter === 'todas' ? C.dark : '#ddd'}`, padding: mob ? '6px 14px' : '5px 14px', borderRadius: 2, cursor: 'pointer', fontFamily: "'Roboto', sans-serif", fontSize: '0.64rem', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>Todas</button>
+          {AREAS.map(a => (
+            <button key={a.id} onClick={() => setFilter(a.id)}
+              style={{ background: filter === a.id ? a.color : '#fff', color: filter === a.id ? '#fff' : a.color, border: `1px solid ${filter === a.id ? a.color : a.color + '66'}`, padding: mob ? '6px 14px' : '5px 14px', borderRadius: 2, cursor: 'pointer', fontFamily: "'Roboto', sans-serif", fontSize: '0.64rem', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>{a.name}</button>
+          ))}
+        </div>
+
+        {/* Navegación de mes */}
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <button onClick={pm} style={{ background: '#fff', border: '1px solid #ddd', borderRadius: 2, width: 38, height: 38, cursor: 'pointer', fontSize: '1.1rem', color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>‹</button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(0.95rem,3.5vw,1.3rem)', fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: C.dark }}>{MONTHS[vm]} <span style={{ color: C.red }}>{vy}</span></div>
+            {!isCurrentMonth && (
+              <button onClick={() => { setVy(today.getFullYear()); setVm(today.getMonth()); }}
+                style={{ background: '#fff', color: C.red, border: `1px solid ${C.red}`, borderRadius: 2, padding: '3px 10px', cursor: 'pointer', fontFamily: "'Roboto', sans-serif", fontSize: '0.6rem', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' }}>Hoy</button>
+            )}
+          </div>
+          <button onClick={nm} style={{ background: '#fff', border: '1px solid #ddd', borderRadius: 2, width: 38, height: 38, cursor: 'pointer', fontSize: '1.1rem', color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>›</button>
+        </div>
+      </div>
+
+      {/* Grid calendario */}
+      <div style={{ width: '100%', maxWidth: 1200, padding: '0 4px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: mob ? 1 : 2, marginBottom: 2, padding: '0 4px' }}>
+          {(mob ? DAYS_S : DAYS_F).map(d => (
+            <div key={d} style={{ textAlign: 'center', fontFamily: "'Roboto', sans-serif", fontSize: mob ? '0.6rem' : '0.7rem', fontWeight: 700, letterSpacing: 1, color: '#999', textTransform: 'uppercase', padding: '6px 0', background: '#fff', borderBottom: '2px solid #eee' }}>{d}</div>
+          ))}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: mob ? 1 : 2, padding: '0 4px' }}>
+          {cells.map((day, idx) => {
+            if (day === null) return <div key={`e${idx}`} style={{ background: '#F9F9F9', minHeight: mob ? 44 : 100 }} />;
+            const devs   = evOnDay(day);
+            const today_ = isToday(day);
+            return (
+              <button key={idx} onClick={() => setSel(day)}
+                style={{ background: today_ ? '#FFF0F0' : '#fff', border: today_ ? `1.5px solid ${C.red}` : '1px solid #eee', padding: mob ? '4px 3px 3px' : '6px 7px', cursor: 'pointer', minHeight: mob ? 44 : 100, display: 'flex', flexDirection: 'column', alignItems: 'stretch', textAlign: 'left', transition: 'background 0.1s' }}>
+                {mob ? (
+                  <>
+                    <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.82rem', fontWeight: today_ ? 800 : 500, color: today_ ? C.red : devs.length > 0 ? '#1a1a1a' : '#aaa', lineHeight: 1, paddingLeft: 2 }}>{day}</span>
+                    {devs.length > 0 && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 'auto', paddingTop: 3 }}>
+                        {devs.slice(0, 3).map(ev => (
+                          <div key={ev.id} style={{ height: 4, borderRadius: 0, background: areaColor(ev.area) }} />
+                        ))}
+                        {devs.length > 3 && <div style={{ height: 3, background: '#ddd' }} />}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
+                      <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.95rem', fontWeight: today_ ? 800 : 600, color: today_ ? C.red : '#555' }}>{day}</span>
+                      {devs.length > 0 && <span style={{ fontSize: '0.48rem', fontWeight: 700, color: C.red, background: '#FFF0F0', padding: '1px 5px', borderRadius: 2 }}>{devs.length}</span>}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, overflow: 'hidden' }}>
+                      {devs.slice(0, 3).map(ev => (
+                        <div key={ev.id} style={{ background: areaColor(ev.area), borderRadius: 0, padding: '2px 5px', fontSize: '0.56rem', fontWeight: 600, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{ev.title}</div>
+                      ))}
+                      {devs.length > 3 && <div style={{ fontSize: '0.46rem', color: '#aaa', fontWeight: 600, paddingLeft: 3 }}>+{devs.length - 3}</div>}
+                    </div>
+                  </>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Próximos eventos */}
+      {(() => {
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+        const upcoming = events.filter(e => e.date >= todayStr).sort((a,b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time)).slice(0, mob ? 3 : 4);
+        if (upcoming.length === 0) return null;
+        const MN = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        return (
+          <div style={{ width:'100%', maxWidth:1200, padding: mob ? '14px 12px 0' : '20px 16px 0' }}>
+            <div style={{ fontFamily:"'Roboto',sans-serif", fontSize:'0.55rem', fontWeight:700, letterSpacing:3, textTransform:'uppercase', color:'#aaa', marginBottom: mob ? 8 : 12 }}>Próximos Eventos</div>
+            <div style={{ display:'flex', flexDirection:'column', gap: mob ? 5 : 6 }}>
+              {upcoming.map(ev => {
+                const [,mm,dd] = ev.date.split('-');
+                return (
+                  <div key={ev.id} style={{ display:'flex', alignItems:'center', gap: mob ? 10 : 12, background:'#fff', borderRadius:2, padding: mob ? '9px 10px' : '11px 14px', borderLeft:`4px solid ${areaColor(ev.area)}`, border: '1px solid #eee', borderLeftWidth: 4 }}>
+                    <div style={{ textAlign:'center', minWidth: mob ? 32 : 38, flexShrink:0 }}>
+                      <div style={{ fontFamily:"'Oswald',sans-serif", fontSize: mob ? '0.95rem' : '1.1rem', fontWeight:800, color:C.dark, lineHeight:1 }}>{dd}</div>
+                      <div style={{ fontFamily:"'Oswald',sans-serif", fontSize:'0.44rem', fontWeight:700, letterSpacing:2, color:'#aaa', textTransform:'uppercase' }}>{MN[parseInt(mm)-1]}</div>
+                    </div>
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <div style={{ fontFamily:"'Oswald',sans-serif", fontSize: mob ? '0.78rem' : '0.82rem', fontWeight:600, color:C.dark, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{ev.title}</div>
+                      <div style={{ display:'flex', gap:6, alignItems:'center', marginTop:2 }}>
+                        <span style={{ fontSize:'0.58rem', color:'#aaa' }}>{ev.time} hs</span>
+                        {ev.location && <span style={{ fontSize:'0.56rem', color:'#bbb', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>· {ev.location}</span>}
+                      </div>
+                    </div>
+                    <span style={{ fontSize:'0.52rem', fontWeight:700, color:'#fff', background:areaColor(ev.area), padding:'3px 8px', borderRadius:2, fontFamily:"'Roboto',sans-serif", letterSpacing:1, textTransform:'uppercase', whiteSpace:'nowrap', flexShrink:0 }}>{areaName(ev.area)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })()}
+
+      {sel !== null && (
+        <EventModal day={sel} month={vm} year={vy} events={fe} onClose={() => setSel(null)} onAdd={async (p) => { await addEvent(p); }} onRemove={async (id) => { await removeEvent(id); }} />
+      )}
+    </section>
+  );
+}
+
+// ═══ EDITOR DE NOTAS ═══
+function NE({ eventId, note, onSave }) {
+  const [ed, setEd]     = useState(false);
+  const [draft, setDr]  = useState(note?.content ?? '');
+  const [saving, setSv] = useState(false);
+  const doSave = async () => { setSv(true); try { await onSave(eventId, draft); setEd(false); } finally { setSv(false); } };
+  if (ed) return (
+    <div>
+      <textarea value={draft} onChange={e => setDr(e.target.value)} placeholder="¿Qué aprendimos?" rows={3}
+        style={{ width: '100%', background: '#F4F4F4', border: '1px solid #ddd', borderRadius: 3, padding: '10px 12px', fontFamily: "'Roboto', sans-serif", fontSize: '16px', color: C.dark, outline: 'none', resize: 'vertical', lineHeight: 1.6 }} autoFocus />
+      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        <button onClick={doSave} disabled={saving} className="btn-river" style={{ padding: '7px 16px', fontSize: '0.68rem', opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'Guardar'}</button>
+        <button onClick={() => setEd(false)} style={{ background: '#F4F4F4', color: C.dark, border: '1px solid #ddd', borderRadius: 2, padding: '7px 14px', cursor: 'pointer', fontFamily: "'Roboto', sans-serif", fontSize: '0.68rem', fontWeight: 600 }}>Cancelar</button>
+      </div>
+    </div>
+  );
+  return (
+    <div onClick={() => { setDr(note?.content ?? ''); setEd(true); }} style={{ cursor: 'pointer' }}>
+      {note?.content
+        ? <div style={{ fontSize: '0.75rem', color: C.dark, lineHeight: 1.7, background: '#F4F4F4', borderRadius: 2, padding: '9px 12px' }}>{note.content}<div style={{ fontSize: '0.6rem', color: '#aaa', marginTop: 4, fontStyle: 'italic' }}>Tocá para editar</div></div>
+        : <div style={{ fontSize: '0.72rem', color: '#bbb', fontStyle: 'italic', background: '#F9F9F9', borderRadius: 2, padding: '9px 12px', border: '1px dashed #ddd' }}>Tocá para agregar notas...</div>
+      }
+    </div>
+  );
+}
+
+// ═══ ÁREAS ═══
+function Areas({ events, notes, saveNote }) {
+  const [open, setOpen] = useState(null);
+  return (
+    <section id="areas" className="section-light" style={{ padding: '52px 16px 64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ textAlign: 'center', marginBottom: 10 }}>
+        <div className="section-label">Nuestro Trabajo</div>
+        <h2 className="section-title">Áre<span style={{ color: C.red }}>as</span></h2>
+        <div className="section-divider" />
+      </div>
+      <p style={{ fontSize: '0.72rem', color: '#888', marginBottom: 28, textAlign: 'center', maxWidth: 460 }}>Eventos agrupados por área. Editá las notas después de cada reunión.</p>
+      <div style={{ width: '100%', maxWidth: 900, display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {AREAS.map(area => {
+          const ae = events.filter(e => e.area === area.id).sort((a, b) => b.date.localeCompare(a.date));
+          const io = open === area.id;
+          return (
+            <div key={area.id} style={{ borderRadius: 0, overflow: 'hidden', border: '1px solid #e0e0e0', boxShadow: io ? '0 4px 16px rgba(0,0,0,0.07)' : 'none' }}>
+              <div onClick={() => setOpen(io ? null : area.id)}
+                style={{ background: area.color, padding: '15px 18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', userSelect: 'none' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: '0.9rem' }}>{area.icon}</span>
+                  <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 'clamp(0.82rem,3vw,1rem)', fontWeight: 700, color: '#fff', letterSpacing: 2, textTransform: 'uppercase' }}>{area.name}</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ background: 'rgba(255,255,255,0.25)', color: '#fff', fontFamily: "'Roboto', sans-serif", fontSize: '0.64rem', fontWeight: 700, padding: '2px 9px', borderRadius: 2 }}>{ae.length}</span>
+                  <span style={{ color: '#fff', fontSize: '0.9rem', transition: 'transform 0.2s', transform: io ? 'rotate(180deg)' : 'rotate(0deg)', display: 'inline-block' }}>▾</span>
+                </div>
+              </div>
+              {io && (
+                <div style={{ background: '#fff', padding: '14px 16px 18px' }}>
+                  {ae.length === 0
+                    ? <div style={{ color: '#aaa', fontSize: '0.78rem', padding: '14px 0', textAlign: 'center' }}>No hay eventos. Agregá uno desde el calendario.</div>
+                    : ae.map((ev, i) => (
+                      <div key={ev.id} style={{ background: '#F9F9F9', borderRadius: 0, padding: '14px', marginBottom: i < ae.length - 1 ? 8 : 0, borderLeft: `4px solid ${areaColor(ev.area)}`, border: '1px solid #eee', borderLeftWidth: 4 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4, flexWrap: 'wrap', gap: 4 }}>
+                          <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.84rem', fontWeight: 600, color: C.dark }}>{ev.title}</div>
+                          <div style={{ fontSize: '0.62rem', color: '#aaa' }}>{ev.date.split('-').reverse().join('/')} · {ev.time}{ev.location ? ` · 📍 ${ev.location}` : ''}</div>
+                        </div>
+                        {ev.description && <div style={{ fontSize: '0.7rem', color: '#888', marginBottom: 7 }}>{ev.description}</div>}
+                        <div style={{ marginTop: 7, borderTop: '1px solid #eee', paddingTop: 8 }}>
+                          <div style={{ fontSize: '0.56rem', fontWeight: 700, color: areaColor(ev.area), fontFamily: "'Roboto', sans-serif", letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 5 }}>Notas</div>
+                          <NE eventId={ev.id} note={notes[ev.id]} onSave={saveNote} />
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// ═══ FOOTER ═══
+function Footer({ onShare }) {
+  return (
+    <footer style={{ background: C.dark, padding: '36px 20px 32px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        {/* Franja roja superior */}
+        <div style={{ height: 3, background: C.red, marginBottom: 28, borderRadius: 1 }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <div style={{ width: 38, height: 38, borderRadius: '50%', background: C.red, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Oswald', sans-serif", fontWeight: 800, fontSize: '0.72rem', color: '#fff' }}>CJ</div>
+              <div>
+                <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: '0.88rem', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#fff' }}>Comisión de la <span style={{ color: C.red }}>Juventud</span></div>
+                <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: 2 }}>Club Atlético River Plate · 2026</div>
+              </div>
+            </div>
+          </div>
+          <button onClick={onShare} className="btn-river">Compartir Link</button>
+        </div>
+        <div style={{ marginTop: 24, paddingTop: 18, borderTop: '1px solid rgba(255,255,255,0.08)', textAlign: 'center', fontSize: '0.6rem', color: 'rgba(255,255,255,0.2)', letterSpacing: 1 }}>
+          © 2026 Club Atlético River Plate — Comisión de la Juventud. Todos los derechos reservados.
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ═══ APP ═══
+function App() {
+  const [page,    setPage]    = useState('inicio');
+  const [events,  setEvents]  = useState([]);
+  const [notes,   setNotes]   = useState({});
+  const [loading, setLoading] = useState(true);
+  const [msg,     setMsg]     = useState('');
+  const [synced,  setSynced]  = useState(false);
+
+  const reload = useCallback(() => {
+    return dbLoad().then(({ events: evs, notes: ns }) => {
+      setEvents(evs);
+      setNotes(ns);
+      setSynced(HAS_SB);
+    });
+  }, []);
+
+  useEffect(() => {
+    reload().finally(() => setLoading(false));
+    if (HAS_SB) {
+      const interval = setInterval(reload, 15000);
+      return () => clearInterval(interval);
+    }
+  }, [reload]);
+
+  const addEvent = async (payload) => {
+    try {
+      const newEv = await dbAddEvent(payload);
+      const updated = [...events, newEv];
+      setEvents(updated);
+      lsSave(updated, notes);
+    } catch(err) {
+      const newEv = { ...payload, id: `ev_${Date.now()}` };
+      const updated = [...events, newEv];
+      setEvents(updated);
+      lsSave(updated, notes);
+      setMsg('Error Supabase: ' + (err?.message || JSON.stringify(err)));
+      setTimeout(() => setMsg(''), 8000);
+    }
+  };
+
+  const removeEvent = async (id) => {
+    try { await dbRemoveEvent(id); } catch(err) { console.error('removeEvent error:', err); }
+    const updated = events.filter(e => e.id !== id);
+    setEvents(updated);
+    lsSave(updated, notes);
+  };
+
+  const saveNote = async (eventId, content) => {
+    try { await dbSaveNote(eventId, content, notes[eventId]); } catch(err) { console.error('saveNote error:', err); }
+    const updatedNotes = { ...notes, [eventId]: { content } };
+    setNotes(updatedNotes);
+    lsSave(events, updatedNotes);
+  };
+
+  const scrollTo = (id) => {
+    setPage(id);
+    if (id !== 'inicio') setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 80);
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const share = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) await navigator.share({ title: 'Comisión de la Juventud - River', url });
+      else { await navigator.clipboard.writeText(url); setMsg('Link copiado!'); setTimeout(() => setMsg(''), 3000); }
+    } catch { try { await navigator.clipboard.writeText(url); setMsg('Link copiado!'); setTimeout(() => setMsg(''), 3000); } catch { prompt('Copiá:', url); } }
+  };
+
+  if (loading) return (
+    <div style={{ minHeight: '100vh', background: C.dark, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 18 }}>
+      <div style={{ width: 56, height: 56, borderRadius: '50%', background: C.red, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Oswald', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: '#fff' }}>CJ</div>
+      <div style={{ fontFamily: "'Roboto', sans-serif", fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)', letterSpacing: 3, textTransform: 'uppercase' }}>Cargando...</div>
+    </div>
+  );
+
+  return (
+    <div style={{ fontFamily: "'Roboto', sans-serif", background: '#F4F4F4', minHeight: '100vh' }}>
+      <Nav active={page} onNav={scrollTo} synced={synced} />
+      <Hero onNav={scrollTo} />
+      <Cal events={events} addEvent={addEvent} removeEvent={removeEvent} />
+      <Areas events={events} notes={notes} saveNote={saveNote} />
+      <Inst />
+      <Footer onShare={share} />
+      <MobileNav active={page} onNav={scrollTo} />
+      {msg && (
+        <div style={{ position: 'fixed', bottom: 80, left: '50%', transform: 'translateX(-50%)', background: C.dark, color: '#fff', padding: '11px 22px', borderRadius: 3, fontSize: '0.78rem', fontWeight: 600, zIndex: 300, boxShadow: '0 4px 18px rgba(0,0,0,0.3)', borderLeft: `4px solid ${C.red}`, whiteSpace: 'nowrap' }}>{msg}</div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
